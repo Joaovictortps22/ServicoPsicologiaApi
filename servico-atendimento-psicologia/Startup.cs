@@ -103,7 +103,7 @@ namespace servico_atendimento_psicologia
                      ValidateAudience = false,
                      ValidateLifetime = true,
                      ValidateIssuerSigningKey = true,
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MsGuNVY5Fwo3CE3gLhWxu2jDhdki1PKZ")),
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:key"])),
                      ClockSkew = TimeSpan.Zero
                  };
                  options.Events = new JwtBearerEvents();

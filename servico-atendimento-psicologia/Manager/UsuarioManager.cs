@@ -70,26 +70,36 @@ namespace servico_atendimento_psicologia.Manager
                 throw ex;
             }
         }
-        public JwtDto LoginUsuario(UsuarioDto usuario)
+        public JwtDto LoginUsuario(LoginDto loginUsuario)
         {
             try
             {
+                ServiceTokenManager _serviceToken = new ServiceTokenManager();
 
-                if (_usuarioData.LoginUsuario(usuario))
-                {
-                    ServiceTokenManager _serviceToken = new ServiceTokenManager();
-                    return _serviceToken.GerarToken(usuario);
-                }
-                else
-                {
-                    throw new Exception("Problemas com autenticação");
-                }
+                UsuarioDto usuarioLogado = _usuarioData.LoginUsuario(loginUsuario);
+                JwtDto token = _serviceToken.GerarToken(usuarioLogado);
+
+                return token;
             }
             catch(Exception ex)
             {
                 throw ex;
             }
         }
-        
+        public List<PapelDto> ListarPapeis(int idUsuario)
+        {
+            try
+            {
+                return _usuarioData.ListarPapeis(idUsuario);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void Atualizar(UsuarioDto usuario)
+        {
+            _usuarioData.Atualizar(usuario);
+        }
     }
 }

@@ -5,14 +5,9 @@ using System.Threading.Tasks;
 
 namespace servico_atendimento_psicologia.Models
 {
-    public class UsuarioDto
+    public class LoginDto
     {
-        public int IdUsuario { get; set; }
-        public string Nome { get; set; }
         public string Email { get; set; }
-        public string Telefone { get; set; }
         public string Password { get; set; }
-        public bool Active { get; set; }
-        public bool Admin { get; set; }
     }
 }

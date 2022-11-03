@@ -20,7 +20,6 @@ namespace servico_atendimento_psicologia.Manager
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(JwtRegisteredClaimNames.NameId, usuario.IdUsuario.ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, usuario.Email));
-            claims.Add(new Claim(JwtRegisteredClaimNames.FamilyName, usuario.Papel.ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MsGuNVY5Fwo3CE3gLhWxu2jDhdki1PKZ"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

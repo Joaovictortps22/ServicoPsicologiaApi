@@ -6,6 +6,7 @@ using servico_atendimento_psicologia.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace servico_atendimento_psicologia.Controllers
@@ -51,7 +52,7 @@ namespace servico_atendimento_psicologia.Controllers
             try
             {
                 _manager.Cadastrar(usuario);
-                return StatusCode(200, "Usuario Cadastrado com sucesso");
+                return StatusCode(200, "Usuario cadastrado com sucesso");
             }
             catch(Exception ex)
             {
@@ -64,6 +65,11 @@ namespace servico_atendimento_psicologia.Controllers
         {
             try
             {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                List<Claim> claim = identity.Claims.ToList();
+
+                var papelUsuario = claim[0].Value;
+
                 _manager.Deletar(email);
                 return StatusCode(200, "Usuário Deletado com sucesso");
             }
@@ -73,13 +79,38 @@ namespace servico_atendimento_psicologia.Controllers
             }
         }
         [HttpPost("Login")]
-        public ActionResult Login([FromBody] UsuarioDto usuario)
+        public ActionResult Login([FromBody] LoginDto loginUsuario)
         {
             try
             {
-                return StatusCode(200, _manager.LoginUsuario(usuario));
+                return StatusCode(200, _manager.LoginUsuario(loginUsuario));
             }
             catch(Exception ex)
+            {
+                return StatusCode(401, new { message = ex.Message });
+            }
+        }
+        [HttpGet("ListarPapeis/{IdUsuario}")]
+        public ActionResult ListarPapeis(int IdUsuario)
+        {
+            try
+            {
+                return StatusCode(200, _manager.ListarPapeis(IdUsuario));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(401, new { message = ex.Message });
+            }
+        }
+        [HttpPut("Atualizar/{IdUsuario}")]
+        public ActionResult Atualizar([FromBody] UsuarioDto usuario)
+        {
+            try
+            {
+                _manager.Atualizar(usuario);
+                return StatusCode(200, "Usuario atualizado com sucesso");
+            }
+            catch (Exception ex)
             {
                 return StatusCode(401, new { message = ex.Message });
             }
